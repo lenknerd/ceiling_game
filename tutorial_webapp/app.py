@@ -35,6 +35,25 @@ def insert_test():
     return "You did a request."
 
 
+@app.route('/ajaxtest_mainpage')
+def ajaxtest_mainpage():
+    return render_template('ajaxtest_mainpage.html')
+
+
+@app.route('/ajaxtest_query', methods=['POST'])
+def ajaxtest_query():
+    app.logger.debug('hey ajax requested')
+    v = request.values
+    for key in v.keys():
+        app.logger.debug(key)
+        app.logger.debug(v[key])
+    np = int(v['nplayas'])
+    nt = int(v['nturns'])
+    tdata = [[i_pl * i_tn for i_pl in range(np)] for i_tn in range(nt)]
+    app.logger.debug('hey made tdata')
+    return render_template('ajaxtest_table.html', tbl=tdata)
+
+
 if __name__ == '__main__':
     handler = RotatingFileHandler('ceiling_game_debug.log', maxBytes=100000, backupCount=1)
     handler.setLevel(logging.DEBUG)
