@@ -10,11 +10,11 @@ select b.t, b.distance, event_idx, CAST(last_t as DECIMAL) as last_t_dec, curr_t
 ) as a
 inner join distances as b
 	on b.t > a.last_t
-    and b.t < a.curr_t;
+	and b.t < a.curr_t;
 
 --query for score per turn
 set @lt=NULL;
-select max(b.distance), event_idx from
+select min(b.distance), event_idx from
 (
 	SELECT @rn:=@rn+1 as event_idx, `t`, @lt last_t, @lt:=t curr_t, `event_type`
 	from (
@@ -24,5 +24,5 @@ select max(b.distance), event_idx from
 ) as a
 inner join distances as b
 	on b.t > a.last_t
-    and b.t < a.curr_t
+	and b.t < a.curr_t
 group by event_idx;
