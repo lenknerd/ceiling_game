@@ -1,0 +1,32 @@
+<!-- View wrapper -->
+<div>
+
+<!-- Summary lines -->
+{% for li in summary_lines %}
+<p>{{li}}</p>
+{% endfor %}
+
+<br/>
+
+<!-- The full score table -->
+<table class="table">
+  <thead>
+    <tr>
+{% for i in range(table[0]|length) %}
+      <th scope="col">Player {{i}}</th>
+{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+{% for trow in table %}
+    <tr>
+{% for tcell in trow %}
+      <td>{{tcell}}</td>
+{% endfor %}
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+<!-- Close view wrapper -->
+</div>
