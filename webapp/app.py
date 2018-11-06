@@ -30,8 +30,8 @@ def commit_score():
     commit_action(ActionType.COMMIT_TURN_SCORE)
 
 
-@app.route('/void_score')
-def void_score():
+@app.route('/void_turn')
+def void_turn():
     """Say you hit the sensor (accelerom not added yet) or other reason to void turn
 
     void the turn and let play continue to next player"""
