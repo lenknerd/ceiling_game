@@ -3,9 +3,9 @@
 Webapp user actions on back end
 Copyright 2018, David Lenkner
 """
-
 import mysql.connector
 from enum import Enum
+from database_utils import get_database_cnx
 
 
 class ActionType(Enum):
@@ -18,11 +18,12 @@ class ActionType(Enum):
 def commit_action(a: ActionType):
     """Commit an action to database along with current timestamp
     
-    Figure out sql_cursor type btw"""
-    cnx = mysql.connector.connect(user='cguser', password='cguser',
-                                  host='127.0.0.1',
-                                  database='ceiling_game')
+    Figure out sql_cursor type btw
+    """
+
+    cnx = get_database_cnx()
     cursor = cnx.cursor()
+
     ts = datetime.now().timestamp()
     
     quer = ("INSERT INTO events "
