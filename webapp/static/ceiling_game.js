@@ -8,7 +8,7 @@ $(document).ready(function() {
     e.preventDefault();
     $.ajax({
       type: "GET",
-      url: "/commit_score"
+      url: "/commit_score",
       success: function(result) {
         console.log('Committed score');
       },
@@ -23,7 +23,7 @@ $(document).ready(function() {
     e.preventDefault();
     $.ajax({
       type: "GET",
-      url: "/void_turn"
+      url: "/void_turn",
       success: function(result) {
         console.log('Voided turn');
       },
@@ -40,7 +40,7 @@ $(document).ready(function() {
       url: "/status_update",
       success: function(result) {
         console.log('Got update, putting in div with id sumlines_and_table');
-        $("#sumlines_and_table").html(result);
+        $("#status_table").html(result);
       },
       error: function(result) {
         alert('Error getting status update!');

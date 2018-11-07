@@ -1,11 +1,7 @@
 <!-- View wrapper -->
 <div>
 
-<!-- Summary lines -->
-{% for li in summary_lines %}
-<p>{{li}}</p>
-{% endfor %}
-
+<!-- Take out?... -->
 <br/>
 
 <!-- The full score table -->
@@ -13,7 +9,7 @@
   <thead>
     <tr>
 {% for i in range(table[0]|length) %}
-      <th scope="col">Player {{i}}</th>
+      <th scope="col">Player {{i}} ({{scores_by_player[i]}})</th>
 {% endfor %}
     </tr>
   </thead>

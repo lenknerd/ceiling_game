@@ -42,10 +42,10 @@ def void_turn():
 @app.route('/status_update')
 def status_update():
     # Use the game class to get data - later more dynamic for diff types of configs
-    game = game_types.CeilingGameConfig()
-    tabl, sum_lines = game.get_status()
+    game = game_types.BowlingTwoPlayer()
+    table, scores_by_player = game.get_status()
     # Render that data
-    return render_template('summary_and_table.html', table=tabl, summary_lines=sum_lines)
+    return render_template('table.html', table=table, scores_by_player=scores_by_player)
 
 
 if __name__ == '__main__':

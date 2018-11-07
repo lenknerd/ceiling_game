@@ -9,15 +9,16 @@ Copyright 2018, David Lenkner
 
 from actions import ActionType
 from database_utils import get_database_cnx
-from typing import List
+from typing import List, Tuple
 
 
-class CeilingGameConfig(object):
+class BowlingBase(object):
     """Class for ceiling game setup and scoring"""
+
     def __init__(self):
-        """Set up with default params"""
+        """Set up with default params, can override"""
         self.n_players = 2
-        self.n_turns = 10
+        self.n_turns = 3
         self.k = 1
         self.c = 0.1
         self.r = 1
@@ -26,7 +27,7 @@ class CeilingGameConfig(object):
         """Score a throw based on distance - max the throw can get"""
         return self.k * 1.0 / (distance + self.c) ** self.r
 
-    def _get_events_distances(self) -> events_distances: List[Tuple[str, float]]:
+    def _get_events_distances(self) -> List[Tuple[str, float]]:
         """Query database tables and join for turns/actions and scores corresponding"""
         squery = '''
             set @lt=NULL;
@@ -46,7 +47,9 @@ class CeilingGameConfig(object):
         cnx = get_database_cnx()
         cursor = cnx.cursor()
         results = cursor.execute(squery, multi=True)
-        events_distances = results[1].fetchall()
+        for idx, result in enumerate(results):
+            if idx == 1:
+                events_distances = result.fetchall()
         cnx.close()
         return events_distances
 
@@ -60,7 +63,7 @@ class CeilingGameConfig(object):
 
         # Total score, get summary strings, table.  Bulk of work here. For each event
         scores_byplayer = [0.0 for i in range(self.n_players)]
-        scores_byturn_byplayer = [['' for j in range(self.n_players)] for i in range(self.n_turns)]
+        scores_byturn_byplayer = [['-' for j in range(self.n_players)] for i in range(self.n_turns)]
         for (idx, event_type, min_d) in events_distances:
             # Sum up scores per player, build display table
             turn_i, player_i = divmod((idx - 1), self.n_player)
@@ -73,15 +76,14 @@ class CeilingGameConfig(object):
             scores_byplayer[player_i] += total_thisturn
             scores_byturn_byplayer[turn_i][player_i] = str(total_thisturn)
 
-        lead_player_i = scores_byplayer.index(max(scores_byplayer))
-        game_over = (self.n_players * self.n_turns - 1 == len(scores_byevent))
-        summary_lines = []
-        for i in range(self.n_players):
-            lin = 'Player ' + str(i + 1) + ': ' + str(scores_byplayer[i])
-            if i == lead_player_i and game_over:
-                lin += ' [WINNER]'
-            summary_lines += lin
-
         # Return info in a dict
-        return scores_byturn_byplayer, summary_lines
+        return scores_byturn_byplayer, scores_byplayer
 
+
+class BowlingTwoPlayer(BowlingBase):
+    """Two players, 10 turns"""
+
+    def __init__(self):
+        super().__init__()
+        self.n_players = 2
+        self.n_turns = 10
