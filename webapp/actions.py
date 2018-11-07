@@ -3,9 +3,9 @@
 Webapp user actions on back end
 Copyright 2018, David Lenkner
 """
-import mysql.connector
 from enum import Enum
 from database_utils import get_database_cnx
+from datetime import datetime
 
 
 class ActionType(Enum):

@@ -8,8 +8,8 @@
 <table class="table">
   <thead>
     <tr>
-{% for i in range(table[0]|length) %}
-      <th scope="col">Player {{i}} ({{scores_by_player[i]}})</th>
+{% for score in scores_by_player %}
+      <th scope="col">Player {{loop.index}} ({{score}})</th>
 {% endfor %}
     </tr>
   </thead>
@@ -17,7 +17,7 @@
 {% for trow in table %}
     <tr>
 {% for tcell in trow %}
-      <td>{{tcell}}</td>
+      <td>{{tcell|safe}}</td>
 {% endfor %}
     </tr>
 {% endfor %}

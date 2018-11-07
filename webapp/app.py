@@ -16,10 +16,14 @@ from logging.handlers import RotatingFileHandler
 app = Flask(__name__)
 
 
+DEBUG_FILENAME = 'cg_debug.log'
+
+
 @app.route('/')
 def index():
     """At start, clear out database for speed, """
     database_utils.wipe_tables()
+    commit_action(ActionType.START_GAME)
     return render_template('index.html')
 
 
@@ -28,6 +32,7 @@ def commit_score():
     """You just finished a turn throwing, commit any score and game moves on"""
     app.logger.debug("Committing score...")
     commit_action(ActionType.COMMIT_TURN_SCORE)
+    return '<p>All good.</p>'
 
 
 @app.route('/void_turn')
@@ -37,6 +42,7 @@ def void_turn():
     void the turn and let play continue to next player"""
     app.logger.debug("Voiding turn...")
     commit_action(ActionType.VOID_TURN_SCORE)
+    return '<p>Voided turn.</p>'
 
 
 @app.route('/status_update')
@@ -45,11 +51,11 @@ def status_update():
     game = game_types.BowlingTwoPlayer()
     table, scores_by_player = game.get_status()
     # Render that data
-    return render_template('table.html', table=table, scores_by_player=scores_by_player)
+    return render_template('status_table.html', table=table, scores_by_player=scores_by_player)
 
 
 if __name__ == '__main__':
-    handler = RotatingFileHandler('ceiling_game_debug.log', maxBytes=100000, backupCount=1)
+    handler = RotatingFileHandler(DEBUG_FILENAME, maxBytes=100000, backupCount=1)
     handler.setLevel(logging.DEBUG)
     app.logger.addHandler(handler)
     app.run(debug=True, host='0.0.0.0')
