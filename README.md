@@ -14,3 +14,5 @@ In one terminal, run
 In another, run
 
     cd webapp && ./app.py
+
+In your browser on network, go to [raspberrypi:5000](raspberrypi:5000)
