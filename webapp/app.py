@@ -32,6 +32,7 @@ def commit_score():
     """You just finished a turn throwing, commit any score and game moves on"""
     app.logger.debug("Committing score...")
     commit_action(ActionType.COMMIT_TURN_SCORE)
+    # Return element not actually used now but np
     return '<p>All good.</p>'
 
 
@@ -42,6 +43,7 @@ def void_turn():
     void the turn and let play continue to next player"""
     app.logger.debug("Voiding turn...")
     commit_action(ActionType.VOID_TURN_SCORE)
+    # Return element not actually used now but np
     return '<p>Voided turn.</p>'
 
 

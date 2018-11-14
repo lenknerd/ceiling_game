@@ -1,13 +1,16 @@
 # Ceiling Game
 
-This just contains personal dev notes for now, nothing intended for anyone but myself
+A game involving a ball, a sensor, and not not much documentation
+in this woefully short readme.  Hope to fill it out later.
 
-http://192.168.1.8/phpmyadmin
-root
-ubuntu pw
+Copyright 2018, David Lenkner
 
-Implementation Notes
-https://docs.google.com/document/d/1Ix0gNQhQaH6uHRNyP6fcoN7G_8oqpHkpdX2ReC5pKsE/edit
+## Starting the server side components
 
-Overall Design Initial Notes
-https://docs.google.com/document/d/1_8X6sRpcmu2lFd4JNalXtT1T_WGuGIZfQiRNrX0LnRg/edit
+In one terminal, run
+
+    ./data_storage_loop.py --source sensor
+
+In another, run
+
+    cd webapp && ./app.py
